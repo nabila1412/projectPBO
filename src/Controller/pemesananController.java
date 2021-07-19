@@ -40,8 +40,12 @@ public class pemesananController implements ActionListener, MouseListener{
     
     public void KosongDataPemesanan(){
             frm.txtIdPemesanan.setText(null);
-            frm.txtId.setText(null);
+            frm.idCustomer.setSelectedItem(null);
+            frm.idPakaian.setSelectedItem(null);
             frm.txtHarga.setText(null);
+            frm.ukuran.setSelectedItem(null);
+            frm.jumlah.setText(null);
+            
         }
     
     public void TampilDataPemesanan(){
@@ -78,17 +82,51 @@ public class pemesananController implements ActionListener, MouseListener{
             }
         }
     
+    public void pemesanan() {
+        String sql = "Select id FROM customer";
+        
+        try {
+            java.sql.Connection conn=(Connection)Connector.configDB();
+            java.sql.Statement stm=conn.createStatement();
+            java.sql.ResultSet res=stm.executeQuery(sql);
+            
+            while (res.next()) {
+                this.frm.idCustomer.addItem(res.getString(1));    
+            }
+        }
+        catch(SQLException e){
+            
+        }
+    }
+    
+    public void pakaian() {
+        String sql = "Select idPakaian FROM pakaian";
+        
+        try {
+            java.sql.Connection conn=(Connection)Connector.configDB();
+            java.sql.Statement stm=conn.createStatement();
+            java.sql.ResultSet res=stm.executeQuery(sql);
+            
+            while (res.next()) {
+                this.frm.idPakaian.addItem(res.getString(1));    
+            }
+        }
+        catch(SQLException e){
+            
+        }
+    }
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
         if(ae.getSource()==frm.btnTambah){
             KosongDataPemesanan();
         }else if(ae.getSource()==frm.btnSimpan){
             data.setIdPemesanan(frm.txtIdPemesanan.getText());
-            data.setIdCustomer(frm.txtId.getText());
-            data.setIdPakaian((String) frm.ukuran.getSelectedItem());
+            data.setIdCustomer((String) frm.idCustomer.getSelectedItem());
+            data.setIdPakaian((String) frm.idPakaian.getSelectedItem());
             data.setHarga(frm.txtHarga.getText());
             data.setUkuran((String) frm.ukuran.getSelectedItem());
-            data.setJumlah((String) frm.ukuran.getSelectedItem());
+            data.setJumlah(frm.jumlah.getText());
             
             
             try {
@@ -102,11 +140,11 @@ public class pemesananController implements ActionListener, MouseListener{
             }
         }else if(ae.getSource()==frm.btnEdit){
             data.setIdPemesanan(frm.txtIdPemesanan.getText());
-            data.setIdCustomer(frm.txtId.getText());
+            data.setIdCustomer((String) frm.idCustomer.getSelectedItem());
             data.setIdPakaian((String) frm.idPakaian.getSelectedItem());
             data.setHarga(frm.txtHarga.getText());
             data.setUkuran((String) frm.ukuran.getSelectedItem());
-            data.setJumlah((String) frm.jumlah.getSelectedItem());
+            data.setJumlah(frm.jumlah.getText());
             
             
             try {
@@ -119,7 +157,7 @@ public class pemesananController implements ActionListener, MouseListener{
                 JOptionPane.showMessageDialog(null, ex);
             }
         }else {
-            data.setIdPakaian(frm.txtIdPemesanan.getText());
+            data.setIdPemesanan(frm.txtIdPemesanan.getText());
             
             try {
                 if(data.HapusDataPemesanan(data)){
@@ -142,7 +180,7 @@ public class pemesananController implements ActionListener, MouseListener{
             frm.txtIdPemesanan.setText(idPemesanan);
             
             String IdCustomer=frm.tablePemesanan.getValueAt(baris, 2).toString();
-            frm.txtId.setText(IdCustomer);
+            frm.idCustomer.setSelectedItem(IdCustomer);
             
             String IdPakaian=frm.tablePemesanan.getValueAt(baris, 3).toString();
             frm.idPakaian.setSelectedItem(IdPakaian);
@@ -154,7 +192,7 @@ public class pemesananController implements ActionListener, MouseListener{
             frm.ukuran.setSelectedItem(Ukuran);                    
             
             String Jumlah=frm.tablePemesanan.getValueAt(baris, 6).toString();
-            frm.jumlah.setSelectedItem(Jumlah);
+            frm.jumlah.setText(Jumlah);
             
         }
     }
