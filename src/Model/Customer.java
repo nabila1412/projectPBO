@@ -55,27 +55,41 @@ public class Customer {
         PreparedStatement pstm = null;
         Connection conn = (Connection)Connector.configDB();
         
-        String sql = "INSERT INTO customer (id, nama, no_hp, alamat) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO customer(id, nama, no_hp, alamat) VALUES(?,?,?,?)";
         
         try{
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, data.getId());
-            pstm.setString(2, getNama());
-            pstm.setString(3, getNoHp());
-            pstm.setString(4, getAlamat());
+            pstm.setString(2, data.getNama());
+            pstm.setString(3, data.getNoHp());
+            pstm.setString(4, data.getAlamat());
             pstm.execute();
             return true;
         }catch(HeadlessException | SQLException e){
-            System.err.println(e);
+            System.out.println(data.getId());
             return false;
         }
     }
     
+//    public boolean SimpanCustomer() throws SQLException {
+//        Connection con = (Connection)Connector.configDB();
+//        
+//        
+//        String sql = "insert into customer values (?,?,?, ?)";
+//        PreparedStatement ps = con.prepareStatement(sql);
+//        ps.setInt(1, this.id);
+//        ps.setString(2, this.nama);
+//        ps.setString(3, this.NoHp);
+//        ps.setString(4, this.Alamat);
+//        ps.execute();
+// 
+//return true;
+//}
     public boolean UpdateCustomer(Customer data) throws SQLException{
         PreparedStatement pstm = null;
         Connection conn = (Connection)Connector.configDB();
         
-         String sql = "UPDATE pakaian SET nama=?, no_hp=?, alamat=? WHERE id=?";
+         String sql = "UPDATE customer SET nama=?, no_hp=?, alamat=? WHERE id=?";
     
         try{
             pstm = conn.prepareStatement(sql);
@@ -83,6 +97,7 @@ public class Customer {
             pstm.setString(1, data.getNama());
             pstm.setString(2, data.getNoHp());
             pstm.setString(3, data.getAlamat());
+            
       
             pstm.execute();
             return true;
@@ -91,6 +106,7 @@ public class Customer {
             return false;
         }
     }
+
     
     public boolean HapusCustomer(Customer data) throws SQLException{
         PreparedStatement pstm = null;
