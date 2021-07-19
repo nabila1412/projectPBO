@@ -24,10 +24,10 @@ public class CstmrController implements ActionListener, MouseListener{
     private Customer data;
     private dataCustomer frm;
         
-    public CstmrController(Customer data, dataCustomer frm){
+    public CstmrController (Customer data, dataCustomer frm){
         this.data = data;
         this.frm = frm;
-        this.frm.btnTambah.addActionListener(this);
+        this.frm.btnEdit.addActionListener(this);
         this.frm.btnSimpan.addActionListener(this);
         this.frm.btnEdit.addActionListener(this);
         this.frm.btnHapus.addActionListener(this);
@@ -35,7 +35,7 @@ public class CstmrController implements ActionListener, MouseListener{
     }
     
     public void KosongDataCustomer(){
-        frm.txtIdCustomer.setText(null);
+        frm.txtIdCustomer.setText(null); 
         frm.txtNama.setText(null);
         frm.txtNoHp.setText(null);
         frm.txtAlamat.setText(null);
@@ -44,8 +44,8 @@ public class CstmrController implements ActionListener, MouseListener{
      public void TampilDataCustomer(){
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("No");
-        model.addColumn("Id");
-        model.addColumn("Nama");
+        model.addColumn("id Customer");
+        model.addColumn("Nama Customer");
         model.addColumn("No Hp");
         model.addColumn("Alamat");
         
@@ -58,7 +58,7 @@ public class CstmrController implements ActionListener, MouseListener{
             
             while(res.next()){
                 model.addRow(new Object[]{
-                no++,
+                 no++,
                 res.getString(1),
                 res.getString(2),
                 res.getString(3),
@@ -68,13 +68,13 @@ public class CstmrController implements ActionListener, MouseListener{
             }
                 frm.tableCustomer.setModel(model);
             
-            }catch(SQLException e){
+                  }catch(SQLException e){
                     System.out.println("Error " + e.getMessage());
                 } 
         }
     
      @Override
-        public void actionPerformed(ActionEvent ae){
+        public void actionPerformed(ActionEvent ae) {
         if(ae.getSource()==frm.btnTambah){
             KosongDataCustomer();
         }else if(ae.getSource()== frm.btnSimpan){
@@ -109,7 +109,6 @@ public class CstmrController implements ActionListener, MouseListener{
             }
         }else{
             data.setId(frm.txtIdCustomer.getText());
-            
             try{
                 if(data.HapusCustomer(data)){
                     JOptionPane.showMessageDialog(null, "Hapus Data Mahasiswa Berhasil");
@@ -124,7 +123,7 @@ public class CstmrController implements ActionListener, MouseListener{
         @Override
         public void mouseClicked(MouseEvent me){
             if(me.getSource()==frm.tableCustomer){
-                frm.txtIdCustomer.setEditable(false);
+        
                 
                 int baris = frm.tableCustomer.rowAtPoint(me.getPoint());
                 String id = frm.tableCustomer.getValueAt(baris, 1).toString();
