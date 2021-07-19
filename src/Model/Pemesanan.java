@@ -123,7 +123,7 @@ public class Pemesanan {
         
         try{
             pstm = conn.prepareStatement(sql);
-            pstm.setString(1, data.getIdPakaian());
+            pstm.setString(1, data.getIdPemesanan());
             pstm.execute();
             return true;
         }catch(HeadlessException | SQLException e){
