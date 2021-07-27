@@ -13,21 +13,13 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Pemesanan {
-    
     private String idPemesanan;
     private String idCustomer;
+    private String NamaCustomer;
     private String idPakaian;
     private String Harga;
     private String Ukuran;
     private String Jumlah;
-
-    public String getJumlah() {
-        return Jumlah;
-    }
-
-    public void setJumlah(String Jumlah) {
-        this.Jumlah = Jumlah;
-    }
 
     public String getIdPemesanan() {
         return idPemesanan;
@@ -43,6 +35,14 @@ public class Pemesanan {
 
     public void setIdCustomer(String idCustomer) {
         this.idCustomer = idCustomer;
+    }
+
+    public String getNamaCustomer() {
+        return NamaCustomer;
+    }
+
+    public void setNamaCustomer(String NamaCustomer) {
+        this.NamaCustomer = NamaCustomer;
     }
 
     public String getIdPakaian() {
@@ -68,21 +68,32 @@ public class Pemesanan {
     public void setUkuran(String Ukuran) {
         this.Ukuran = Ukuran;
     }
+
+    public String getJumlah() {
+        return Jumlah;
+    }
+
+    public void setJumlah(String Jumlah) {
+        this.Jumlah = Jumlah;
+    }
+
+    
     
      public boolean SimpanDataPemesanan(Pemesanan data) throws SQLException{
         PreparedStatement pstm = null;
         Connection conn = (Connection)Connector.configDB();
         
-        String sql = "INSERT INTO pemesanan (idPemesanan, idCustomer, idPakaian, harga, ukuran, jumlah) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO pemesanan (idPemesanan, idCustomer, namaCustomer, idPakaian, harga, ukuran, jumlah) VALUES(?,?,?,?,?,?,?)";
         
         try{
             pstm = conn.prepareStatement(sql);
             pstm.setString(1, data.getIdPemesanan());
-            pstm.setString(2, getIdCustomer());
-            pstm.setString(3, getIdPakaian());
-            pstm.setString(4, getHarga());
-            pstm.setString(5, getUkuran());
-            pstm.setString(6, getJumlah());
+            pstm.setString(2, data.getIdCustomer());
+            pstm.setString(3, data.getNamaCustomer());
+            pstm.setString(4, data.getIdPakaian());
+            pstm.setString(5, data.getHarga());
+            pstm.setString(6, data.getUkuran());
+            pstm.setString(7, data.getJumlah());
             
             pstm.execute();
             return true;
@@ -96,16 +107,17 @@ public class Pemesanan {
         PreparedStatement pstm = null;
         Connection conn = (Connection)Connector.configDB();
         
-        String sql = "UPDATE pemesanan SET idCustomer=?, idPakaian=?, harga=?, ukuran=?, jumlah=? WHERE idPemesanan=?";
+        String sql = "UPDATE pemesanan SET idCustomer=?, namaCustomer=?, idPakaian=?, harga=?, ukuran=?, jumlah=? WHERE idPemesanan=?";
     
         try{
             pstm = conn.prepareStatement(sql);
-            pstm.setString(6, data.getIdPemesanan());
-            pstm.setString(1, getIdCustomer());
-            pstm.setString(2, getIdPakaian());
-            pstm.setString(3, getHarga());
-            pstm.setString(4, getUkuran());
-            pstm.setString(5, getJumlah());            
+            pstm.setString(7, data.getIdPemesanan());
+            pstm.setString(1, data.getIdCustomer());
+            pstm.setString(2, data.getNamaCustomer());
+            pstm.setString(3, data.getIdPakaian());
+            pstm.setString(4, data.getHarga());
+            pstm.setString(5, data.getUkuran());
+            pstm.setString(6, data.getJumlah());            
       
             pstm.execute();
             return true;
