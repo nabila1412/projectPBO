@@ -31,9 +31,9 @@ public class pemesananController implements ActionListener, MouseListener{
     public pemesananController(Pemesanan data, dataPemesanan frm){
         this.data = data;
         this.frm = frm;
-        this.frm.btnTambah.addActionListener(this);
+        this.frm.btnTambah1.addActionListener(this);
         this.frm.btnSimpan.addActionListener(this);
-        this.frm.btnEdit.addActionListener(this);
+        this.frm.btnEdit1.addActionListener(this);
         this.frm.btnHapus.addActionListener(this);
         this.frm.tablePemesanan.addMouseListener(this);
     }
@@ -41,8 +41,9 @@ public class pemesananController implements ActionListener, MouseListener{
     public void KosongDataPemesanan(){
             frm.txtIdPemesanan.setText(null);
             frm.idCustomer.setSelectedItem(null);
+            frm.namaCustomer.setText(null);
             frm.idPakaian.setSelectedItem(null);
-            frm.txtHarga.setText(null);
+            frm.Harga.setText(null);
             frm.ukuran.setSelectedItem(null);
             frm.jumlah.setText(null);
             
@@ -52,8 +53,9 @@ public class pemesananController implements ActionListener, MouseListener{
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("No");
             model.addColumn("Id Pemesanan");
-            model.addColumn("Id Pakaian");
             model.addColumn("Id Customer");
+            model.addColumn("Nama Customer");
+            model.addColumn("Id Pakaian");
             model.addColumn("Harga");
             model.addColumn("Ukuran");
             model.addColumn("Jumlah");
@@ -74,6 +76,7 @@ public class pemesananController implements ActionListener, MouseListener{
                         res.getString(4),
                         res.getString(5),
                         res.getString(6),
+                        res.getString(7)
                        });
                 }
                 frm.tablePemesanan.setModel(model);
@@ -83,7 +86,7 @@ public class pemesananController implements ActionListener, MouseListener{
         }
     
     public void pemesanan() {
-        String sql = "Select id FROM customer";
+        String sql = "Select idCustomer FROM customer";
         
         try {
             java.sql.Connection conn=(Connection)Connector.configDB();
@@ -118,13 +121,14 @@ public class pemesananController implements ActionListener, MouseListener{
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if(ae.getSource()==frm.btnTambah){
+        if(ae.getSource()==frm.btnTambah1){
             KosongDataPemesanan();
         }else if(ae.getSource()==frm.btnSimpan){
             data.setIdPemesanan(frm.txtIdPemesanan.getText());
             data.setIdCustomer((String) frm.idCustomer.getSelectedItem());
+            data.setNamaCustomer(frm.namaCustomer.getText());
             data.setIdPakaian((String) frm.idPakaian.getSelectedItem());
-            data.setHarga(frm.txtHarga.getText());
+            data.setHarga(frm.Harga.getText());
             data.setUkuran((String) frm.ukuran.getSelectedItem());
             data.setJumlah(frm.jumlah.getText());
             
@@ -138,18 +142,19 @@ public class pemesananController implements ActionListener, MouseListener{
             }catch (SQLException ex){
                 JOptionPane.showMessageDialog(null, ex);
             }
-        }else if(ae.getSource()==frm.btnEdit){
+        }else if(ae.getSource()==frm.btnEdit1){
             data.setIdPemesanan(frm.txtIdPemesanan.getText());
             data.setIdCustomer((String) frm.idCustomer.getSelectedItem());
+             data.setNamaCustomer(frm.namaCustomer.getText());
             data.setIdPakaian((String) frm.idPakaian.getSelectedItem());
-            data.setHarga(frm.txtHarga.getText());
+            data.setHarga(frm.Harga.getText());
             data.setUkuran((String) frm.ukuran.getSelectedItem());
             data.setJumlah(frm.jumlah.getText());
             
             
             try {
                 if(data.UpdateDataPemesanan(data)){
-                    JOptionPane.showMessageDialog(null, "Update Anda Berhasil");
+                    JOptionPane.showMessageDialog(null, "Update Data Berhasil");
                     KosongDataPemesanan();
                     TampilDataPemesanan();
                 }
@@ -161,7 +166,7 @@ public class pemesananController implements ActionListener, MouseListener{
             
             try {
                 if(data.HapusDataPemesanan(data)){
-                    JOptionPane.showMessageDialog(null, "Berhasil Menghapus");
+                    JOptionPane.showMessageDialog(null, "Berhasil Menghapus Data");
                     KosongDataPemesanan();
                     TampilDataPemesanan();
                 }
@@ -182,16 +187,19 @@ public class pemesananController implements ActionListener, MouseListener{
             String IdCustomer=frm.tablePemesanan.getValueAt(baris, 2).toString();
             frm.idCustomer.setSelectedItem(IdCustomer);
             
-            String IdPakaian=frm.tablePemesanan.getValueAt(baris, 3).toString();
+            String NamaCustomer=frm.tablePemesanan.getValueAt(baris, 3).toString();
+            frm.namaCustomer.setText(NamaCustomer);
+            
+            String IdPakaian=frm.tablePemesanan.getValueAt(baris, 4).toString();
             frm.idPakaian.setSelectedItem(IdPakaian);
             
-            String Harga = frm.tablePemesanan.getValueAt(baris, 4).toString();
-            frm.txtHarga.setText(Harga);
+            String Harga = frm.tablePemesanan.getValueAt(baris, 5).toString();
+            frm.Harga.setText(Harga);
             
-            String Ukuran=frm.tablePemesanan.getValueAt(baris, 5).toString();
+            String Ukuran=frm.tablePemesanan.getValueAt(baris, 6).toString();
             frm.ukuran.setSelectedItem(Ukuran);                    
             
-            String Jumlah=frm.tablePemesanan.getValueAt(baris, 6).toString();
+            String Jumlah=frm.tablePemesanan.getValueAt(baris, 7).toString();
             frm.jumlah.setText(Jumlah);
             
         }
