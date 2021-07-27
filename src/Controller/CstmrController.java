@@ -27,7 +27,7 @@ public class CstmrController implements ActionListener, MouseListener{
     public CstmrController (Customer data, dataCustomer frm){
         this.data = data;
         this.frm = frm;
-        this.frm.btnEdit.addActionListener(this);
+        this.frm.btnTambah.addActionListener(this);
         this.frm.btnSimpan.addActionListener(this);
         this.frm.btnEdit.addActionListener(this);
         this.frm.btnHapus.addActionListener(this);
